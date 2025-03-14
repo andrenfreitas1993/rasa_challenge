@@ -1,32 +1,23 @@
 version: "3.1"
 
 slots:
-  recipient:
+  name:
     type: text
-    mappings:
-      - type: from_llm
-  amount:
-    type: float
     mappings:
       - type: from_llm
 
 responses:
-  utter_ask_recipient:
-    - text: "Who would you like to send money to?"
-
-  utter_ask_amount:
-    - text: "How much money would you like to send?"
-
-  utter_transfer_complete:
-    - text: "All done. {amount} has been sent to {recipient}."
-
+  utter_ask_name:
+    - text: "What is your name?"
+  utter_final:
+    - text: "Hi {name}, Welcome"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
         rephrase: True
         rephrase_prompt: |
           Below is a conversation with an AI assistant built with Rasa.
-          The assistant can help the user book an appointment.
+          The assistant is able to schedule appointments in hospitals and clinics in general.
           The user will talk about what they are feeling and the assistant should ask the user if they want to book an appointment with the specialist that is related to their symptoms.
           The assistant is helpful, creative, intelligent and very friendly.
           The user is having a casual conversation and the assistant should respond while keeping things light.
