@@ -3,6 +3,9 @@ flows:
     description: ask users name
     steps:
       - collect: name
-      - action: utter_transfer_complete
+      - action: action_check_time
+      - collect: time
+        description: "User's time  in xx:xx format"
+      - action: utter_final
         id: name_successful
 

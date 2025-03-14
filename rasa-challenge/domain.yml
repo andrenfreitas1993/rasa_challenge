@@ -5,20 +5,31 @@ slots:
     type: text
     mappings:
       - type: from_llm
-
+  choose_time:
+     type: any
+     mappings:
+      - type: custom
+        action: action_check_time
+  time:
+    type: text
+    mappings:
+      - type: from_llm
+actions:
+  - action_check_time
 responses:
   utter_ask_name:
     - text: "What is your name?"
+  utter_ask_time:
+    - text: "choose the time? {choose_time}"
   utter_final:
-    - text: "Hi {name}, Welcome"
+    - text: "Hi {name}, your appointment is scheduled for {time}"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
         rephrase: True
         rephrase_prompt: |
           Below is a conversation with an AI assistant built with Rasa.
-          The assistant is able to schedule appointments in hospitals and clinics in general.
-          The user will talk about what they are feeling and the assistant should ask the user if they want to book an appointment with the specialist that is related to their symptoms.
+          The assistant is able to schedule appointments in hospitals and clinics in general. The user will talk about what they are feeling and the assistant should ask the user if they want to book an appointment with the specialist that is related to their symptoms.
           The assistant is helpful, creative, intelligent and very friendly.
           The user is having a casual conversation and the assistant should respond while keeping things light.
           Context / previous conversation with the user:
