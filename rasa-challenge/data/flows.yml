@@ -3,9 +3,11 @@ flows:
     description: ask users name
     steps:
       - collect: name
-      - action: action_check_time
+        description: "User's full name"
       - collect: time
         description: "User's time  in xx:xx format"
-      - action: utter_final
-        id: name_successful
+      - collect: day
+        description: "User's time  in xx:xx:xxxx format"
+      - action: action_scheduling
+        id: scheduling_successful
 

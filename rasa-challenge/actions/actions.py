@@ -2,11 +2,51 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
+from datetime import datetime, timedelta
 
+
+import sqlite3
+import os
+
+def criar_banco_de_dados(database):
+    if not os.path.exists(database):
+        conn = sqlite3.connect(database)
+        print(f'Banco de dados {database} criado com sucesso!')
+        
+        # Criação da tabela de agendamentos
+        cursor = conn.cursor()
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS agendamentos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            day TEXT NOT NULL,
+            time TEXT NOT NULL
+        )
+        ''')
+        conn.commit()
+        print('Tabela "agendamentos" criada com sucesso!')
+        conn.close()
+    else:
+        print(f'O banco de dados {database} já existe.')
+
+# Função para adicionar um agendamento
+def adicionar_agendamento(database, name, day, time):
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+    
+    # Inserir o agendamento na tabela
+    cursor.execute('''
+    INSERT INTO agendamentos (name,day,time)
+    VALUES (?, ?, ?)
+    ''' ,(name,  day, time))
+    
+    conn.commit()
+    print(f'Agendamento de {name} inserido com sucesso!')
+    conn.close()
 
 class ActionTime(Action):
     def name(self) -> Text:
-        return "action_check_time"
+        return "action_scheduling"
 
     def run(
         self,
@@ -14,8 +54,21 @@ class ActionTime(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # hard-coded balance for tutorial purposes. in production this
-        # would be retrieved from a database or an API
-        
-        time_list = ["09:00","10:00"]
-        return [SlotSet("choose_time", time_list)]
+        database = 'agendamentos.db'
+
+        # Verifica e cria o banco de dados, caso não exista
+        criar_banco_de_dados(database)
+
+        # Pega os slots que foram definidos no diálogo
+        name = tracker.get_slot('name')
+        day = tracker.get_slot('day')
+        time = tracker.get_slot('time')
+
+        # Adiciona o agendamento ao banco de dados
+        adicionar_agendamento(database, name,  day, time)
+
+        # Retorna um feedback ao usuário
+        dispatcher.utter_message(text=f"Agendamento de {name} para o dia {day} às {time} foi confirmado.")
+
+        return []
+    
