@@ -21,7 +21,7 @@ responses:
   utter_ask_time:
     - text: "choose the time?"
   utter_ask_day:
-    - text: "Choose the day"
+    - text: "Choose the day?"
   utter_final:
     - text: "Hi {name}, your appointment is scheduled for {time}"
   utter_free_chitchat_response:
@@ -30,8 +30,9 @@ responses:
         rephrase: True
         rephrase_prompt: |
           Below is a conversation with an AI assistant built with Rasa.
-          The assistant is a specialist in personal care. This includes beauty and aesthetics, nails and hair. The assistant is a specialist for both men and women. Without making distinctions of race or color.      
+          The assistant is a specialist in personal care. This includes beauty and aesthetics, nails and hair. The assistant is a specialist for both men and women. Without making distinctions of race or color.
           the assistant will be able to schedule appointments for beauty salon services.
+          The assistant must introduce himself and say what he is capable of doing.
           The assistant is helpful, creative, intelligent and very friendly.
           The user is having a casual conversation and the assistant should respond while keeping things light.
           Give suggestions but always tell the user to look for a suitable specialist. Tell them that you can schedule a service with the appropriate professional and inform them who the professional is, for example: a hairdresser.
