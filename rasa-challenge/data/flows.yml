@@ -1,4 +1,12 @@
 flows:
+  ask_cpf:
+    description: ask cpf 
+    steps:
+      - collect: cpf
+        description: "User's cpf"
+      - action: action_check_user_by_cpf
+        id: check_successful
+
   ask_name:
     description: ask users name
     steps:
