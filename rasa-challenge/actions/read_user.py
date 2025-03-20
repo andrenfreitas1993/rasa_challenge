@@ -3,7 +3,7 @@ import os
 from cryptography.fernet import Fernet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-
+from rasa_sdk.events import SlotSet
 # Function to load the encryption key
 def load_key():
     return open("key.key", "rb").read()
@@ -49,18 +49,18 @@ def query_user_by_cpf(cpf):
     cursor = conn.cursor()
     
     # Encrypt the provided CPF to query the database
-    encrypted_cpf = encrypt_data(cpf)
+    #encrypted_cpf = encrypt_data(cpf)
     
     # Query the database for the user by encrypted CPF
-    cursor.execute('''SELECT name, cpf FROM users WHERE cpf = ?''', (encrypted_cpf,))
+    cursor.execute('''SELECT name, cpf FROM users WHERE cpf = ?''', (cpf,))
     user = cursor.fetchone()
     
     conn.close()
     
     if user:
-        name, encrypted_cpf = user
-        decrypted_cpf = decrypt_data(encrypted_cpf)
-        return name, decrypted_cpf
+        name, cpf_user = user
+        #decrypted_cpf = decrypt_data(encrypted_cpf)
+        return name, cpf_user
     else:
         return None, None
 
@@ -79,11 +79,10 @@ class ActionCheckUserByCPF(Action):
             return []
         
         # Query the database for the user
-        name, decrypted_cpf = query_user_by_cpf(cpf)
-        
+        name, cpf_user = query_user_by_cpf(cpf)
         if name:
-            dispatcher.utter_message(text=f"User found: Name: {name}, CPF: {decrypted_cpf}")
+            return [SlotSet("name", name),SlotSet("is_authenticated", True)]
         else:
-            dispatcher.utter_message(text="User not found with this CPF.")
+            return [SlotSet("is_authenticated", False)]
         
-        return []
+

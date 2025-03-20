@@ -44,9 +44,9 @@ def register_user(name, cpf):
     cursor = conn.cursor()
     
     # Encrypt the CPF before saving
-    encrypted_cpf = encrypt_data(cpf)
+   # encrypted_cpf = encrypt_data(cpf)
     
-    cursor.execute('''INSERT INTO users (name, cpf) VALUES (?, ?)''', (name, encrypted_cpf))
+    cursor.execute('''INSERT INTO users (name, cpf) VALUES (?, ?)''', (name, cpf))
     conn.commit()
     conn.close()
 
