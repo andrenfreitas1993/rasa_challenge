@@ -1,10 +1,9 @@
 flows:
-  ask_name:
-    description: ask users name
+  scheduling_appointment:
+    description: when the user wants to make an appointment
     steps:
       - collect: cpf
         description: "User's cpf"
-      - action: action_check_user_by_cpf
       - collect: name
         description: "User's full name"
       - collect: time
@@ -13,34 +12,14 @@ flows:
         description: "User's time  in xx:xx:xxxx format"
       - action: action_scheduling
         id: scheduling_successful
-  
 
-  user_creation:
-    description: "check authenticated"
+  suggested_salon:
+    description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
     steps:
-      - action: utter_check
-        next:
-          - if: slots.is_authenticated
-            then:
-              - action: utter_farewell
-                next: END
-          - else:
-              - link: create_user_flow
-  
-  create_user_flow:
-   description: "If the user does not exist in the database, ask if they would like to register"
-   steps:
-     - action: action_registration
-       next:
-         - if: slots.registration
-           then:
-             - action: action_create_user
-               next: END
-         - else:
-             - action: utter_farewell
-               next: END
-
-   
+      - action: action_suggested_salon
+      - action: utter_scheduling
+      - link: scheduling_appointment
+        id: suggested_salon_successful
   
 
-
+  

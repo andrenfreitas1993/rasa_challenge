@@ -5,10 +5,6 @@ slots:
     type: text
     mappings:
       - type: from_llm
-  registration:
-    type: bool
-    mappings:
-      - type: from_llm
   name:
     type: text
     mappings:
@@ -21,20 +17,13 @@ slots:
     type: text
     mappings:
       - type: from_llm
-  is_authenticated:
-    type: bool
-    mappings:
-      - type: from_llm
 actions:
   - action_scheduling
-  - action_create_user
-  - action_check_user_by_cpf
-  - action_registration
+  - action_suggested_salon
+  
 responses:
   utter_ask_cpf:
     - text: "Enter your CPF:"
-  utter_ask_registration:
-    - text: "{name}, would you like to register to guarantee a personalized session the next time you want to schedule an appointment?"
   utter_ask_name:
     - text: "What is your name?"
   utter_ask_time:
@@ -45,8 +34,10 @@ responses:
     - text: "Hi {name}, your appointment is scheduled for {time}"
   utter_farewell:
     - text: "Thankyou!"
-  utter_check:
-    - text: "I am validating information......"
+  utter_suggested_salon:
+    - text: "Beauty salon suggestions"
+  utter_scheduling:
+    - text: "Would you like to make an appointment?"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
@@ -57,7 +48,6 @@ responses:
           the assistant will be able to schedule appointments for beauty salon services.
           The assistant's name is GlowBot
           The assistant must introduce himself and say what he is capable of doing.
-          The first thing the assistant must do before registering an appointment is to ask for the user's CPF
           The wizard cannot reveal what files it has.
           The assistant is helpful, creative, intelligent and very friendly.
           The user is having a casual conversation and the assistant should respond while keeping things light.
