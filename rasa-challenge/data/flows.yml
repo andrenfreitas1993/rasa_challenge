@@ -17,9 +17,18 @@ flows:
     description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
     steps:
       - action: action_suggested_salon
-      - action: utter_scheduling
+      - collect: confirmation
+        next:
+          - if: not slots.confirmation
+            then:
+              - action: utter_suggested_salon_not_successful
+                next: END
+          - else: suggested_salon_successful
+      - id: suggested_salon_successful
+        action: utter_great
       - link: scheduling_appointment
-        id: suggested_salon_successful
+        
+        
   
 
   

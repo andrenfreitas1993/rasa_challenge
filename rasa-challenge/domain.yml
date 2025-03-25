@@ -17,6 +17,10 @@ slots:
     type: text
     mappings:
       - type: from_llm
+  confirmation:
+    type: bool
+    mappings:
+      - type: from_llm
 actions:
   - action_scheduling
   - action_suggested_salon
@@ -36,8 +40,12 @@ responses:
     - text: "Thankyou!"
   utter_suggested_salon:
     - text: "Beauty salon suggestions"
-  utter_scheduling:
+  utter_ask_confirmation:
     - text: "Would you like to make an appointment?"
+  utter_suggested_salon_not_successful:
+    - text: "ok, if you need any tips you can call me :)"
+  utter_great:
+    - text: "Great!"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
