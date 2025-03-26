@@ -1,7 +1,33 @@
 flows:
-  scheduling_appointment:
-    description: when the user wants to make an appointment
+  #scheduling_appointment:
+   # description: when the user wants to make an appointment
+    #steps:
+     # - collect: cpf
+      #  description: "User's cpf"
+      #- collect: name
+       # description: "User's full name"
+      #- collect: time
+       # description: "User's time  in xx:xx format"
+      #- collect: day
+       # description: "User's time  in xx:xx:xxxx format"
+      #- action: action_scheduling
+       # id: scheduling_successful
+
+  
+  suggested_salon:
+    description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
     steps:
+      - action: action_suggested_salon
+      - collect: option_salon
+      - collect: confirmation
+        next:
+          - if: not slots.confirmation
+            then:
+              - action: utter_suggested_salon_not_successful
+                next: END
+          - else: suggested_salon_successful
+      - id: suggested_salon_successful
+        action: utter_great
       - collect: cpf
         description: "User's cpf"
       - collect: name
@@ -12,21 +38,7 @@ flows:
         description: "User's time  in xx:xx:xxxx format"
       - action: action_scheduling
         id: scheduling_successful
-
-  suggested_salon:
-    description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
-    steps:
-      - action: action_suggested_salon
-      - collect: confirmation
-        next:
-          - if: not slots.confirmation
-            then:
-              - action: utter_suggested_salon_not_successful
-                next: END
-          - else: suggested_salon_successful
-      - id: suggested_salon_successful
-        action: utter_great
-      - link: scheduling_appointment
+      #- link: scheduling_appointment
         
         
   

@@ -21,11 +21,23 @@ slots:
     type: bool
     mappings:
       - type: from_llm
+  option_salon:
+    type: text
+    mappings:
+      - type: from_llm
+    validation:
+      rejections:
+        - if: not(slots.option_salon matches "^[0-9]$")
+          utter: utter_invalid_option_salon
+      refill_utter: "utter_refill_option_salon"
+
 actions:
   - action_scheduling
   - action_suggested_salon
   
 responses:
+  utter_ask_option_salon:
+    - text: "Choose the salon option:"
   utter_ask_cpf:
     - text: "Enter your CPF:"
   utter_ask_name:
@@ -46,6 +58,10 @@ responses:
     - text: "ok, if you need any tips you can call me :)"
   utter_great:
     - text: "Great!"
+  utter_refill_option_salon:
+    - text: "Please enter a valid option"
+  utter_invalid_option_salon:
+    - text: "Invalid option, select a valid option 0-9"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:

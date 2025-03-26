@@ -3,7 +3,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from datetime import datetime, timedelta
-
+import json
 
 import sqlite3
 import os
@@ -45,6 +45,20 @@ def adicionar_agendamento(database, cpf,name, day, time):
     print(f'Agendamento de {name} inserido com sucesso!')
     conn.close()
 
+def ler_salons_json(filepath: str) -> Dict:
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            salons = json.load(f)
+            return salons
+    except FileNotFoundError:
+        print(f"Arquivo {filepath} não encontrado.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Erro ao decodificar o arquivo {filepath}.")
+        return {}
+        
+
+
 class ActionTime(Action):
     def name(self) -> Text:
         return "action_scheduling"
@@ -65,12 +79,16 @@ class ActionTime(Action):
         name = tracker.get_slot('name')
         day = tracker.get_slot('day')
         time = tracker.get_slot('time')
-
+        option = tracker.get_slot('option_salon')
+        print(option)
+        salons = ler_salons_json("salons.json")
+        choose_salon = salons[option]
+        name = choose_salon['name']
+        address = choose_salon['address']
         # Adiciona o agendamento ao banco de dados
         adicionar_agendamento(database, cpf,name,  day, time)
 
         # Retorna um feedback ao usuário
-        dispatcher.utter_message(text=f"Agendamento de {name} para o dia {day} às {time} foi confirmado.")
+        dispatcher.utter_message(text=f"{name}'s appointment for the {day} at {time} confirmed.\n\nName:{name}\naddress:{address}")
 
         return []
-    
