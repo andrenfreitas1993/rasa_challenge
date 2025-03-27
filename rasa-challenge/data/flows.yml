@@ -1,23 +1,8 @@
-flows:
-  #scheduling_appointment:
-   # description: when the user wants to make an appointment
-    #steps:
-     # - collect: cpf
-      #  description: "User's cpf"
-      #- collect: name
-       # description: "User's full name"
-      #- collect: time
-       # description: "User's time  in xx:xx format"
-      #- collect: day
-       # description: "User's time  in xx:xx:xxxx format"
-      #- action: action_scheduling
-       # id: scheduling_successful
-
-  
+flows:  
   suggested_salon:
     description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
     steps:
-      - action: action_suggested_salon
+      - action: action_places_api
       - collect: option_salon
       - collect: confirmation
         next:
@@ -38,9 +23,4 @@ flows:
         description: "User's time  in xx:xx:xxxx format"
       - action: action_scheduling
         id: scheduling_successful
-      #- link: scheduling_appointment
-        
-        
-  
-
   

@@ -1,6 +1,10 @@
 version: "3.1"
 
 slots:
+  places:
+    type: text
+    mappings:
+      - type: from_llm
   cpf:
     type: text
     mappings:
@@ -33,7 +37,7 @@ slots:
 
 actions:
   - action_scheduling
-  - action_suggested_salon
+  - action_places_api
   
 responses:
   utter_ask_option_salon:
@@ -62,6 +66,8 @@ responses:
     - text: "Please enter a valid option"
   utter_invalid_option_salon:
     - text: "Invalid option, select a valid option 0-9"
+  utter_ask_places:
+    - text: "Enter the place you want to go to:"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
