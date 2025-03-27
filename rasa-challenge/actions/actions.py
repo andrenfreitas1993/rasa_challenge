@@ -20,8 +20,10 @@ def criar_banco_de_dados(database):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             cpf TEXT NOT NULL,
             name TEXT NOT NULL,
-            day TEXT NOT NULL,
-            time TEXT NOT NULL
+            date TEXT NOT NULL,
+            time TEXT NOT NULL,
+            salon_name TEXT NOT NULL,
+            address TEXT NOT NULL         
         )
         ''')
         conn.commit()
@@ -31,15 +33,15 @@ def criar_banco_de_dados(database):
         print(f'O banco de dados {database} já existe.')
 
 # Função para adicionar um agendamento
-def adicionar_agendamento(database, cpf,name, day, time):
+def adicionar_agendamento(database, cpf,name, day, time,salon_name,address):
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
     
     # Inserir o agendamento na tabela
     cursor.execute('''
-    INSERT INTO agendamentos (cpf,name,day,time)
-    VALUES (?, ?, ?, ?)
-    ''' ,(cpf,name,  day, time))
+    INSERT INTO agendamentos (cpf,name,date,time,salon_name,address)
+    VALUES (?, ?, ?, ?,?,?)
+    ''' ,(cpf,name,  day, time,salon_name,address))
     
     conn.commit()
     print(f'Agendamento de {name} inserido com sucesso!')
@@ -77,18 +79,17 @@ class ActionTime(Action):
         # Pega os slots que foram definidos no diálogo
         cpf = tracker.get_slot('cpf')
         name = tracker.get_slot('name')
-        day = tracker.get_slot('day')
+        date = tracker.get_slot('date')
         time = tracker.get_slot('time')
         option = tracker.get_slot('option_salon')
-        print(option)
         salons = ler_salons_json("salons.json")
         choose_salon = salons[option]
-        name = choose_salon['name']
+        salon_name = choose_salon['name']
         address = choose_salon['address']
         # Adiciona o agendamento ao banco de dados
-        adicionar_agendamento(database, cpf,name,  day, time)
+        adicionar_agendamento(database, cpf,name,  date, time,salon_name,address)
 
         # Retorna um feedback ao usuário
-        dispatcher.utter_message(text=f"{name}'s appointment for the {day} at {time} confirmed.\n\nName:{name}\naddress:{address}")
+        dispatcher.utter_message(text=f"{name}'s appointment for the {date} at {time} confirmed.\n\nName:{salon_name}\naddress:{address}")
 
         return []

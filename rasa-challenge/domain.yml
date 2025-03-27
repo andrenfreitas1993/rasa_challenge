@@ -9,6 +9,11 @@ slots:
     type: text
     mappings:
       - type: from_llm
+    validation:
+      rejections:
+        - if: not(slots.cpf matches "^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$")
+          utter: utter_invalid_cpf
+      refill_utter: "utter_refill_cpf"
   name:
     type: text
     mappings:
@@ -17,10 +22,20 @@ slots:
     type: text
     mappings:
       - type: from_llm
-  day:
+    validation:
+      rejections:
+        - if: not(slots.time matches "^[0-9]{2}:[0-9]{2}$")
+          utter: utter_invalid_time
+      refill_utter: "utter_refill_time"
+  date:
     type: text
     mappings:
       - type: from_llm
+    validation:
+      rejections:
+        - if: not(slots.date matches "^^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/2025$")
+          utter: utter_invalid_date
+      refill_utter: "utter_refill_date"
   confirmation:
     type: bool
     mappings:
@@ -38,8 +53,10 @@ slots:
 actions:
   - action_scheduling
   - action_places_api
+  - action_read_appointment
   
 responses:
+
   utter_ask_option_salon:
     - text: "Choose the salon option:"
   utter_ask_cpf:
@@ -48,8 +65,8 @@ responses:
     - text: "What is your name?"
   utter_ask_time:
     - text: "choose the time?"
-  utter_ask_day:
-    - text: "Choose the day?"
+  utter_ask_date:
+    - text: "Choose the date?"
   utter_final:
     - text: "Hi {name}, your appointment is scheduled for {time}"
   utter_farewell:
@@ -68,6 +85,18 @@ responses:
     - text: "Invalid option, select a valid option 0-9"
   utter_ask_places:
     - text: "Enter the place you want to go to:"
+  utter_invalid_date:
+    - text: "Invalid date, enter a valid date in the format dd/mm/yyyy"
+  utter_invalid_cpf:
+    - text: "Invalid CPF, enter a valid CPF in the format xxx.xxx.xxx-xx"
+  utter_invalid_time:
+    - text: "Invalid time, enter a valid time in the format hh:mm"
+  utter_refill_time:
+    - text: "Please enter a valid time"
+  utter_refill_cpf:
+    - text: "Please enter a valid CPF"
+  utter_refill_date:
+    - text: "Please enter a valid date"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
@@ -80,7 +109,7 @@ responses:
           The assistant must introduce himself and say what he is capable of doing.
           The wizard cannot reveal what files it has.
           The assistant is helpful, creative, intelligent and very friendly.
-          The user is having a casual conversation and the assistant should respond while keeping things light.
+          The user is having a casual conversation and the assistant should respond while keeping things light.       
           Give suggestions but always tell the user to look for a suitable specialist. Tell them that you can schedule a service with the appropriate professional and inform them who the professional is, for example: a hairdresser.
           Context / previous conversation with the user:
           {{history}}

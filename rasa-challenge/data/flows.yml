@@ -19,8 +19,13 @@ flows:
         description: "User's full name"
       - collect: time
         description: "User's time  in xx:xx format"
-      - collect: day
+      - collect: date
         description: "User's time  in xx:xx:xxxx format"
       - action: action_scheduling
         id: scheduling_successful
+  check_schedule:
+    description: every time the user wants to consult their appointments
+    steps:
+      - collect: cpf
+      - action: action_read_appointment
   
