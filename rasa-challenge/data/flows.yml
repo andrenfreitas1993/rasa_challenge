@@ -23,6 +23,7 @@ flows:
         description: "User's time  in xx:xx:xxxx format"
       - action: action_scheduling
         id: scheduling_successful
+    
   check_schedule:
     description: every time the user wants to consult their appointments
     steps:

@@ -24,7 +24,7 @@ slots:
       - type: from_llm
     validation:
       rejections:
-        - if: not(slots.time matches "^[0-9]{2}:[0-9]{2}$")
+        - if: not(slots.time matches "^(0[9]|1[0-8]):[0-5][0-9]$|^(19):00$")
           utter: utter_invalid_time
       refill_utter: "utter_refill_time"
   date:
@@ -46,7 +46,7 @@ slots:
       - type: from_llm
     validation:
       rejections:
-        - if: not(slots.option_salon matches "^[0-9]$")
+        - if: not(slots.option_salon matches "^[0-9]{1}$")
           utter: utter_invalid_option_salon
       refill_utter: "utter_refill_option_salon"
 
