@@ -94,7 +94,7 @@ class ActionPlaceApi(Action):
         places = {}
         place = tracker.get_slot("places")
 
-        API_KEY = "AIzaSyBpYUMc0pluQ2LS5glW4pO2loWofG2ySPI"
+        API_KEY = ""
         if API_KEY:
             lista = []
             # Obtendo a localização atual
