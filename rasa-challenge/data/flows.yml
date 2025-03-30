@@ -1,32 +1,7 @@
 flows:  
-  suggested_salon:
-    description: when the user asks for suggestions for beauty salons, barber shops and nails,or just asks for suggestions
+  suggested_places:
+    description: When the user requests place recommendations
     steps:
+      - collect: places
       - action: action_places_api
-      - collect: option_salon
-      - collect: confirmation
-        next:
-          - if: not slots.confirmation
-            then:
-              - action: utter_suggested_salon_not_successful
-                next: END
-          - else: suggested_salon_successful
-      - id: suggested_salon_successful
-        action: utter_great
-      - collect: cpf
-        description: "User's cpf"
-      - collect: name
-        description: "User's full name"
-      - collect: time
-        description: "User's time  in xx:xx format"
-      - collect: date
-        description: "User's time  in xx:xx:xxxx format"
-      - action: action_scheduling
-        id: scheduling_successful
-    
-  check_schedule:
-    description: every time the user wants to consult their appointments
-    steps:
-      - collect: cpf
-      - action: action_read_appointment
-  
+     

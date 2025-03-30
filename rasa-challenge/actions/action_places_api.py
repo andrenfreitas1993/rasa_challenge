@@ -44,7 +44,7 @@ def get_current_location(api_key):
         print(f"Erro ao obter localização: {response.status_code}")
         return None
 
-def search_places(api_key,location=None, radius=None):
+def search_places(api_key,location=None, radius=None,place=None):
     """
     Consome a API Places do Google Maps para buscar lugares com base em uma consulta.
 
@@ -56,8 +56,9 @@ def search_places(api_key,location=None, radius=None):
     """
     base_url = "https://places.googleapis.com/v1/places:searchNearby"
     params = {"key": api_key,}
-    payload = json.dumps({"includedTypes": ["beauty_salon","barber_shop","nail_salon","hair_salon"],
-                "maxResultCount": 3,
+    
+    payload = json.dumps({"includedTypes": [place],
+                "maxResultCount": 10,
                 "locationRestriction": {
                     "circle": {
                     "center": {
@@ -90,15 +91,17 @@ class ActionPlaceApi(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        salons = {}
-        API_KEY = ""
+        places = {}
+        place = tracker.get_slot("places")
+        print(f"Place: {place}")
+        API_KEY = "AIzaSyBpYUMc0pluQ2LS5glW4pO2loWofG2ySPI"
         if API_KEY:
             lista = []
             # Obtendo a localização atual
             location = get_current_location(API_KEY)
             if location:
                 RADIUS = 1000  
-                results = search_places(API_KEY, location, RADIUS)
+                results = search_places(API_KEY, location, RADIUS,place)
                 if results:
                     for place in results['places']:
                         if 'id' in place:
@@ -121,18 +124,18 @@ class ActionPlaceApi(Action):
             dispatcher.utter_message("Here are some suggestions for Beauty Salon:")
             for i,l in enumerate(lista):
                 dispatcher.utter_message(f"OPTION: {i}\nNome:{l[0]}\nEndereço:{l[1]}\nRating:{l[2]}")
-                salons[str(i)] = {
+                places[str(i)] = {
                     "name": l[0],
                     "address": l[1],
                     "rating": l[2]
                 }
-            with open("salons.json", "w",encoding="utf-8") as f:
-                json.dump(salons, f, indent=4)
+            with open("places.json", "w",encoding="utf-8") as f:
+                json.dump(places, f, indent=4)
             return []
         else:
-            with open("salons.json", "r",encoding="utf-8") as f:
-                salons = json.load(f)
+            with open("places.json", "r",encoding="utf-8") as f:
+                places = json.load(f)
             dispatcher.utter_message("Here are some suggestions for Beauty Salon:")
-            for i,l in enumerate(salons):
-                dispatcher.utter_message(f"OPTION: {i}\nNome:{salons[l]['name']}\nEndereço:{salons[l]['address']}\nRating:{salons[l]['rating']}")
+            for i,l in enumerate(places):
+                dispatcher.utter_message(f"OPTION: {i}\nNome:{places[l]['name']}\nEndereço:{places[l]['address']}\nRating:{places[l]['rating']}")
             return []

@@ -2,113 +2,38 @@ version: "3.1"
 
 slots:
   places:
-    type: text
-    mappings:
-      - type: from_llm
-  cpf:
-    type: text
-    mappings:
-      - type: from_llm
-    validation:
-      rejections:
-        - if: not(slots.cpf matches "^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$")
-          utter: utter_invalid_cpf
-      refill_utter: "utter_refill_cpf"
-  name:
-    type: text
-    mappings:
-      - type: from_llm
-  time:
-    type: text
-    mappings:
-      - type: from_llm
-    validation:
-      rejections:
-        - if: not(slots.time matches "^(0[9]|1[0-8]):[0-5][0-9]$|^(19):00$")
-          utter: utter_invalid_time
-      refill_utter: "utter_refill_time"
-  date:
-    type: text
-    mappings:
-      - type: from_llm
-    validation:
-      rejections:
-        - if: not(slots.date matches "^^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/2025$")
-          utter: utter_invalid_date
-      refill_utter: "utter_refill_date"
-  confirmation:
-    type: bool
-    mappings:
-      - type: from_llm
-  
-  option_salon:
-    type: text
-    mappings:
-      - type: controlled
- 
+    type: categorical
+    values:
+      - "beauty salon"
+      - "restaurant"
+      - "bar"
+      - "cafe"
+      - "cafeteria"
+      - "pharmacy"
+      - "hospital"
+      - "hotel"
+      - "barber shop"
+
+
 actions:
-  - action_scheduling
   - action_places_api
-  - action_read_appointment
-  - validate_option_salon
+
   
 responses:
-
-  utter_ask_option_salon:
-    - text: "Choose the salon option:"
-  utter_ask_cpf:
-    - text: "Enter your CPF:"
-  utter_ask_name:
-    - text: "What is your name?"
-  utter_ask_time:
-    - text: "choose the time?"
-  utter_ask_date:
-    - text: "Choose the date?"
-  utter_final:
-    - text: "Hi {name}, your appointment is scheduled for {time}"
-  utter_farewell:
-    - text: "Thankyou!"
-  utter_suggested_salon:
-    - text: "Beauty salon suggestions"
-  utter_ask_confirmation:
-    - text: "Would you like to make an appointment?"
-  utter_suggested_salon_not_successful:
-    - text: "ok, if you need any tips you can call me :)"
-  utter_great:
-    - text: "Great!"
-  utter_refill_option_salon:
-    - text: "Please enter a valid option"
-  utter_invalid_option_salon:
-    - text: "Invalid option, select a valid option 0-9"
   utter_ask_places:
     - text: "Enter the place you want to go to:"
-  utter_invalid_date:
-    - text: "Invalid date, enter a valid date in the format dd/mm/yyyy"
-  utter_invalid_cpf:
-    - text: "Invalid CPF, enter a valid CPF in the format xxx.xxx.xxx-xx"
-  utter_invalid_time:
-    - text: "Invalid time, enter a valid time in the format hh:mm"
-  utter_refill_time:
-    - text: "Please enter a valid time"
-  utter_refill_cpf:
-    - text: "Please enter a valid CPF"
-  utter_refill_date:
-    - text: "Please enter a valid date"
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
         rephrase: True
         rephrase_prompt: |
           Below is a conversation with an AI assistant built with Rasa.
-          The assistant is a specialist in personal care. This includes beauty and aesthetics, nails and hair. The assistant is a specialist for both men and women. Without making distinctions of race or color.
-          the assistant will be able to schedule appointments for beauty salon services.
+          The assistant is an expert in place recommendations
           The assistant's name is GlowBot
           The assistant must introduce himself and say what he is capable of doing.
           The wizard cannot reveal what files it has.
           The assistant is helpful, creative, intelligent and very friendly.
-          The user is having a casual conversation and the assistant should respond while keeping things light.       
-          no need to tell the user to select a correct option
-          Give suggestions but always tell the user to look for a suitable specialist. Tell them that you can schedule a service with the appropriate professional and inform them who the professional is, for example: a hairdresser.
+          The user is having a casual conversation and the assistant should respond while keeping things light.
           Context / previous conversation with the user:
           {{history}}
           {{current_input}}
