@@ -1,1 +1,52 @@
-{}
+{
+    "0": {
+        "name": "Caf\u00e9 Boteco",
+        "address": "Tv. Ten. Mario Dallari, 20 - Centro, Serra Negra - SP, 13930-000, Brazil",
+        "rating": 4.5
+    },
+    "1": {
+        "name": "Padaria e Confeitaria Serrana",
+        "address": "Pra\u00e7a Prefeito Jo\u00e3o Zelante, 2 - Centro, Serra Negra - SP, 13930-000, Brazil",
+        "rating": 4.5
+    },
+    "2": {
+        "name": "Caf\u00e9 Bistr\u00f4 e Restaurante Marrocos",
+        "address": "Av. das Na\u00e7\u00f5es Unidas, 145 - Centro, \u00c1guas de Lind\u00f3ia - SP, 13940-000, Brazil",
+        "rating": 4.6
+    },
+    "3": {
+        "name": "Caf\u00e9 Santa Serra",
+        "address": "Estrada Municipal Jos\u00e9 Renato Pulini Marchi S\u00edtio Santa Rosa Barroc\u00e3o, Serra Negra - SP, 13930-000, Brazil",
+        "rating": 4.8
+    },
+    "4": {
+        "name": "Coffe museum - Vale do Ouro Verde",
+        "address": "Estrada Municipal Amathis Jos\u00e9 Franchi - Bairro da Serra, Serra Negra - SP, 13930-000, Brazil",
+        "rating": 4.4
+    },
+    "5": {
+        "name": "Panificadora e Mercearia Tupy",
+        "address": "Av. Brasil, 77, \u00c1guas de Lind\u00f3ia - SP, 13940-000, Brazil",
+        "rating": 4.4
+    },
+    "6": {
+        "name": "Rota do caf\u00e9",
+        "address": "R. Ant\u00f4nio Luiz de Almeida, 1800, \u00c1guas de Lind\u00f3ia - SP, 13940-000, Brazil",
+        "rating": 4.9
+    },
+    "7": {
+        "name": "Buenos Sabores Confraria Gastron\u00f4mica",
+        "address": "R. 7 de Setembro, 286 - Centro, Serra Negra - SP, 13930-000, Brazil",
+        "rating": 4.8
+    },
+    "8": {
+        "name": "Sitio Monte Alegre",
+        "address": "acesso a partir da Estrada entre - e - Av. Monte Si\u00e3o, 13940 - 000, \u00c1guas de Lind\u00f3ia - SP, 13940-000, Brazil",
+        "rating": 4.6
+    },
+    "9": {
+        "name": "CineDel Burguer, Restaurante, Hamburgueria e Conveni\u00eancia",
+        "address": "Av. das Na\u00e7\u00f5es Unidas, 795 - Centro, \u00c1guas de Lind\u00f3ia - SP, 13940-000, Brazil",
+        "rating": 4.2
+    }
+}

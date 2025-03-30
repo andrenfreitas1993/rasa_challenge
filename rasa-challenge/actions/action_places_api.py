@@ -14,7 +14,7 @@ def get_reviews(api_key,placeId):
     }
     headers = {
         "Content-Type": "application/json",
-        "X-Goog-FieldMask": "displayName.text,rating,formattedAddress"
+        "X-Goog-FieldMask": "displayName.text,rating,formattedAddress,reviews"
     }
     response = requests.get(url,params=params,headers=headers)
     
@@ -93,20 +93,22 @@ class ActionPlaceApi(Action):
     ) -> List[Dict[Text, Any]]:
         places = {}
         place = tracker.get_slot("places")
-        print(f"Place: {place}")
+
         API_KEY = "AIzaSyBpYUMc0pluQ2LS5glW4pO2loWofG2ySPI"
         if API_KEY:
             lista = []
             # Obtendo a localização atual
             location = get_current_location(API_KEY)
+          
             if location:
-                RADIUS = 1000  
+                RADIUS = 20000.0  
                 results = search_places(API_KEY, location, RADIUS,place)
-                if results:
+                if results and results != {}:
                     for place in results['places']:
                         if 'id' in place:
                             idplace = place['id']
                             reviews = get_reviews(API_KEY,idplace)
+                            print(reviews)
                             if reviews:
                                 if 'displayName' in reviews:
                                     displayname = reviews['displayName']['text']
@@ -121,7 +123,10 @@ class ActionPlaceApi(Action):
                                 else:
                                     rating = "rating unavailable"
                                 lista.append([displayname,formattedAddress,rating])
-            dispatcher.utter_message("Here are some suggestions for Beauty Salon:")
+                else:
+                    dispatcher.utter_message("I couldn't find any places nearby.\n\nTip:\nAdjusting the distance increases the likelihood of finding places closer to you.")
+                    return []
+            dispatcher.utter_message(f"Here are some suggestions for you:")
             for i,l in enumerate(lista):
                 dispatcher.utter_message(f"OPTION: {i}\nNome:{l[0]}\nEndereço:{l[1]}\nRating:{l[2]}")
                 places[str(i)] = {
@@ -135,7 +140,7 @@ class ActionPlaceApi(Action):
         else:
             with open("places.json", "r",encoding="utf-8") as f:
                 places = json.load(f)
-            dispatcher.utter_message("Here are some suggestions for Beauty Salon:")
+            dispatcher.utter_message(f"Here are some suggestions for {place}:")
             for i,l in enumerate(places):
                 dispatcher.utter_message(f"OPTION: {i}\nNome:{places[l]['name']}\nEndereço:{places[l]['address']}\nRating:{places[l]['rating']}")
             return []
