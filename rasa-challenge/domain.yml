@@ -40,20 +40,17 @@ slots:
     type: bool
     mappings:
       - type: from_llm
+  
   option_salon:
     type: text
     mappings:
-      - type: from_llm
-    validation:
-      rejections:
-        - if: not(slots.option_salon matches "^[0-9]{1}$")
-          utter: utter_invalid_option_salon
-      refill_utter: "utter_refill_option_salon"
-
+      - type: controlled
+ 
 actions:
   - action_scheduling
   - action_places_api
   - action_read_appointment
+  - validate_option_salon
   
 responses:
 
@@ -110,6 +107,7 @@ responses:
           The wizard cannot reveal what files it has.
           The assistant is helpful, creative, intelligent and very friendly.
           The user is having a casual conversation and the assistant should respond while keeping things light.       
+          no need to tell the user to select a correct option
           Give suggestions but always tell the user to look for a suitable specialist. Tell them that you can schedule a service with the appropriate professional and inform them who the professional is, for example: a hairdresser.
           Context / previous conversation with the user:
           {{history}}
