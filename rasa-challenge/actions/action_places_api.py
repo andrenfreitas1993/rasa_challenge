@@ -58,7 +58,7 @@ def search_places(api_key,location=None, radius=None,place=None):
     params = {"key": api_key,}
     
     payload = json.dumps({"includedTypes": [place],
-                "maxResultCount": 10,
+                "maxResultCount": 5,
                 "locationRestriction": {
                     "circle": {
                     "center": {
@@ -103,12 +103,13 @@ class ActionPlaceApi(Action):
             if location:
                 RADIUS = 20000.0  
                 results = search_places(API_KEY, location, RADIUS,place)
+                reviews_list = []
                 if results and results != {}:
                     for place in results['places']:
                         if 'id' in place:
                             idplace = place['id']
                             reviews = get_reviews(API_KEY,idplace)
-                            print(reviews)
+                            
                             if reviews:
                                 if 'displayName' in reviews:
                                     displayname = reviews['displayName']['text']
@@ -123,6 +124,9 @@ class ActionPlaceApi(Action):
                                 else:
                                     rating = "rating unavailable"
                                 lista.append([displayname,formattedAddress,rating])
+                                if 'reviews' in reviews:
+                                    for review in reviews['reviews']:
+                                        reviews_list.append(review['text'])
                 else:
                     dispatcher.utter_message("I couldn't find any places nearby.\n\nTip:\nAdjusting the distance increases the likelihood of finding places closer to you.")
                     return []
