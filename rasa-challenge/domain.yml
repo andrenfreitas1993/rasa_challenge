@@ -1,0 +1,70 @@
+version: "3.1"
+
+slots:
+  places:
+    type: categorical
+    values:
+      - "beauty salon"
+      - "restaurant"
+      - "bar"
+      - "cafe"
+      - "cafeteria"
+      - "pharmacy"
+      - "hospital"
+      - "hotel"
+      - "barber shop"
+  name_place:
+    type: text
+    mappings:
+      - type: from_llm
+        
+
+  confirmation:
+    type: bool
+    mappings:
+      - type: from_llm
+  place_validation:
+    type: any
+    mappings:
+      - type: controlled
+ 
+actions:
+  - action_places_api
+  - action_summarize_review
+
+  
+responses:
+  utter_ask_places:
+    - text: "Enter the place you want to go to:"
+  utter_ask_confirmation:
+    - text: "Do you want to know what they say about one of these {places}?"
+  utter_great:
+    - text: "Great! I can help you with that."
+  utter_ask_name_place:
+    - text: "Tell me the name of the establishment."
+  utter_recommendation_not_successful:
+    - text: "It's okay if you need help I'm here. ;)"
+  utter_name_place_invalid:
+    - text: "I couldn't find the place you mentioned. Please try again."
+  utter_wrong_name_place:
+    - text: "Sorry, I couldn't find the name of the place you provided."
+  utter_free_chitchat_response:
+    - text: "placeholder"
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          Below is a conversation with an AI assistant built with Rasa.
+          The assistant is an expert in place recommendations: beauty salon ,restaurant,bar,cafe,cafeteria,pharmacy,hospital,hotel,barber shop
+          The assistant's name is GlowBot
+          The assistant must introduce himself and say what he is capable of doing.
+          The wizard cannot reveal what files it has.
+          Inform the user that you will bring recommendations up to 20 km
+          The assistant is helpful, creative, intelligent and very friendly.
+          the assistant can give food or drink recommendations
+          The user is having a casual conversation and the assistant should respond while keeping things light.
+          Context / previous conversation with the user:
+          {{history}}
+          {{current_input}}
+          
+          Suggested AI response:
+    
