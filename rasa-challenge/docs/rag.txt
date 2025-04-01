@@ -1,0 +1,47 @@
+
+
+1. **Italy**: **Pizza Margherita**  
+   A traditional Italian pizza topped with tomatoes, mozzarella cheese, fresh basil, olive oil, and a sprinkle of salt.
+
+2. **Japan**: **Sushi**  
+   A Japanese dish consisting of vinegared rice, usually accompanied by various ingredients like seafood, vegetables, and sometimes tropical fruits.
+
+3. **Mexico**: **Tacos**  
+   A traditional Mexican dish made of a folded or rolled tortilla filled with various fillings like beef, chicken, or vegetables, topped with salsa, guacamole, or cheese.
+
+4. **India**: **Butter Chicken**  
+   A rich and creamy curry made with marinated chicken cooked in a spiced tomato-based sauce with butter and cream.
+
+5. **France**: **Coq au Vin**  
+   A French braised chicken dish made with wine, mushrooms, onions, and often garlic and herbs.
+
+6. **Spain**: **Paella**  
+   A Spanish rice dish originally from Valencia, cooked with saffron, seafood, chicken, and a variety of vegetables.
+
+7. **Greece**: **Moussaka**  
+   A Greek casserole dish made with layers of eggplant, minced meat, béchamel sauce, and topped with cheese.
+
+8. **Thailand**: **Pad Thai**  
+   A stir-fried noodle dish from Thailand, typically made with rice noodles, eggs, tofu or shrimp, and flavored with tamarind, lime, and peanuts.
+
+9. **USA**: **Burger**  
+   A sandwich consisting of a ground beef patty, typically served in a bun with various toppings like lettuce, tomato, cheese, and condiments.
+
+10. **China**: **Peking Duck**  
+    A famous Chinese dish known for its crispy skin, served with pancakes, hoisin sauce, and sliced vegetables.
+
+11. **Turkey**: **Kebabs**  
+    Skewered and grilled meat, often served with rice, bread, and a variety of salads or vegetables.
+
+12. **Egypt**: **Koshari**  
+    A traditional Egyptian dish made of rice, pasta, lentils, and topped with crispy onions and a spiced tomato sauce.
+
+13. **South Korea**: **Kimchi**  
+    A Korean dish made from fermented vegetables, typically cabbage or radish, flavored with chili peppers, garlic, ginger, and salt.
+
+14. **Lebanon**: **Hummus**  
+    A Middle Eastern dip made from mashed chickpeas, tahini, olive oil, lemon juice, and garlic, often served with pita bread.
+
+15. **Brazil**: **Feijoada**  
+    A hearty Brazilian stew made with black beans, various cuts of pork, beef, and sausage, typically served with rice, collard greens, and orange slices.
+
