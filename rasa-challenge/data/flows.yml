@@ -4,4 +4,23 @@ flows:
     steps:
       - collect: places
       - action: action_places_api
+      - collect: confirmation
+        next:
+          - if: not slots.confirmation
+            then:
+              - action: utter_recommendation_not_successful
+                next: END
+          - else: recommendation_successful
+      - id: recommendation_successful
+        action: utter_great
+      - collect: name_place
+        description: Collect the name of the place
+        next:
+          - if:  not slots.place_validation
+            then:
+              - action: utter_wrong_name_place
+                next: END
+          - else: name_place_successful
+      - id: name_place_successful
+        action: action_summarize_review
      

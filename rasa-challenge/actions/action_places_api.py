@@ -26,12 +26,7 @@ def get_reviews(api_key,placeId):
         return None
         
 def get_current_location(api_key):
-    """
-    Obtém a localização atual usando a API de Geolocalização do Google Maps.
-
-    :param api_key: Sua chave de API do Google Maps.
-    :return: Um dicionário com latitude e longitude.
-    """
+   
     url = "https://www.googleapis.com/geolocation/v1/geolocate"
     params = {
         "key": api_key
@@ -45,15 +40,7 @@ def get_current_location(api_key):
         return None
 
 def search_places(api_key,location=None, radius=None,place=None):
-    """
-    Consome a API Places do Google Maps para buscar lugares com base em uma consulta.
-
-    :param api_key: Sua chave de API do Google Maps.
-    :param query: Termo de busca (ex: "restaurantes").
-    :param location: Coordenadas de localização (ex: "37.7749,-122.4194").
-    :param radius: Raio de busca em metros (ex: 1000).
-    :return: Lista de resultados da API.
-    """
+    
     base_url = "https://places.googleapis.com/v1/places:searchNearby"
     params = {"key": api_key,}
     
@@ -92,25 +79,33 @@ class ActionPlaceApi(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         places = {}
+        listSlots = []
+        
         place = tracker.get_slot("places")
-
-        API_KEY = ""
+        if place == 'beauty salon':
+            place = 'beauty_salon'
+        elif place == 'barber shop':
+            place = 'barber_shop'
+        
+        API_KEY = " your api key here "
         if API_KEY:
             lista = []
-            # Obtendo a localização atual
+            
+            # Getting the current location
             location = get_current_location(API_KEY)
           
             if location:
                 RADIUS = 20000.0  
                 results = search_places(API_KEY, location, RADIUS,place)
-                reviews_list = []
+                
                 if results and results != {}:
                     for place in results['places']:
                         if 'id' in place:
                             idplace = place['id']
                             reviews = get_reviews(API_KEY,idplace)
-                            
                             if reviews:
+                                review_string = ''
+                                reviews_list = []
                                 if 'displayName' in reviews:
                                     displayname = reviews['displayName']['text']
                                 else:
@@ -123,28 +118,35 @@ class ActionPlaceApi(Action):
                                     rating = reviews['rating']           
                                 else:
                                     rating = "rating unavailable"
-                                lista.append([displayname,formattedAddress,rating])
                                 if 'reviews' in reviews:
                                     for review in reviews['reviews']:
-                                        reviews_list.append(review['text'])
+                                        review_string += review['text']['text'] + "\n"
+                                    reviews_list.append(review_string)
+                                else:
+                                    reviews_list.append("No reviews available")
+                                
+                                lista.append([displayname,formattedAddress,rating,reviews_list])
                 else:
                     dispatcher.utter_message("I couldn't find any places nearby.\n\nTip:\nAdjusting the distance increases the likelihood of finding places closer to you.")
                     return []
             dispatcher.utter_message(f"Here are some suggestions for you:")
             for i,l in enumerate(lista):
-                dispatcher.utter_message(f"OPTION: {i}\nNome:{l[0]}\nEndereço:{l[1]}\nRating:{l[2]}")
-                places[str(i)] = {
+                dispatcher.utter_message(f"OPTION: {i}\nName:{l[0]}\nAdress:{l[1]}\nRating:{l[2]}")
+                places[str(l[0])] = {
                     "name": l[0],
                     "address": l[1],
-                    "rating": l[2]
+                    "rating": l[2],
+                    "reviews": l[3]
                 }
+                listSlots.append(l[0])
             with open("places.json", "w",encoding="utf-8") as f:
                 json.dump(places, f, indent=4)
-            return []
+            return [SlotSet("place_validation", listSlots)]
         else:
             with open("places.json", "r",encoding="utf-8") as f:
                 places = json.load(f)
             dispatcher.utter_message(f"Here are some suggestions for {place}:")
             for i,l in enumerate(places):
                 dispatcher.utter_message(f"OPTION: {i}\nNome:{places[l]['name']}\nEndereço:{places[l]['address']}\nRating:{places[l]['rating']}")
-            return []
+                listSlots.append(places[l]['name'])
+            return [SlotSet("place_validation", listSlots)]
